@@ -1,0 +1,26 @@
+[project]
+name = "upwork-mcp"
+version = "0.1.0"
+description = "MCP server for your Upwork account, driven by a live local Chrome and synced through Supabase"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "mcp>=2.3",
+    "httpx>=0.27",
+    "python-dotenv>=1.0",
+]
+
+[project.optional-dependencies]
+# Only the machine running Chrome needs Playwright.
+worker = ["playwright>=1.45"]
+
+[project.scripts]
+upwork-mcp = "upwork_mcp.server:main"
+upwork-worker = "upwork_mcp.worker:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["upwork_mcp"]
