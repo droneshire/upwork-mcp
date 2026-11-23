@@ -19,14 +19,16 @@ class DB:
         key = key or settings.supabase_key
         if not url or not key:
             raise SupabaseError("SUPABASE_URL and SUPABASE_SERVICE_KEY must be set")
+        if key.startswith("sb_publishable_"):
+            raise SupabaseError(
+                "SUPABASE_SERVICE_KEY is a publishable key; use the secret key "
+                "(sb_secret_...) or the legacy service_role JWT"
+            )
+        headers = {"apikey": key, "Content-Type": "application/json"}
+        if key.startswith("eyJ"):  # legacy JWT keys also go in Authorization
+            headers["Authorization"] = f"Bearer {key}"
         self._client = httpx.AsyncClient(
-            base_url=url.rstrip("/") + "/rest/v1",
-            headers={
-                "apikey": key,
-                "Authorization": f"Bearer {key}",
-                "Content-Type": "application/json",
-            },
-            timeout=30,
+            base_url=url.rstrip("/") + "/rest/v1", headers=headers, timeout=30
         )
 
     async def close(self) -> None:

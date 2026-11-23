@@ -175,6 +175,7 @@ class Worker:
 
 def main() -> None:
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
+    logging.getLogger("httpx").setLevel(logging.WARNING)  # queue polling is noisy
     asyncio.run(Worker().main())
 
 

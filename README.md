@@ -27,7 +27,7 @@ cp .env.example .env                    # fill SUPABASE_URL / SUPABASE_SERVICE_K
 ```bash
 ./scripts/start-chrome.sh
 ```
-Log into Upwork in that window once. It uses its own profile, `~/.upwork-chrome-profile`, because Chrome 136+ blocks remote debugging on the default profile. Then:
+Log into Upwork in that window once. It uses its own profile, `~/.upwork-chrome-profile`, because Chrome 136+ blocks remote debugging on the default profile. The script also sets the profile to restore your session on startup, so the login survives restarts. If "Continue with Google" loops, close Chrome, run `./scripts/start-chrome.sh --login` (same profile, debugging off), log in, close it, and start normally. Then:
 ```bash
 .venv/bin/upwork-worker
 ```

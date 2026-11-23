@@ -69,6 +69,7 @@ alter table worker_status enable row level security;
 create or replace function claim_command()
 returns setof commands
 language sql
+set search_path = public
 as $$
   update commands
      set status = 'running', started_at = now()
@@ -86,6 +87,7 @@ $$;
 create or replace function requeue_stale_commands(older_than_seconds int default 300)
 returns int
 language sql
+set search_path = public
 as $$
   with r as (
     update commands set status = 'queued', started_at = null
@@ -95,3 +97,7 @@ as $$
   )
   select count(*)::int from r;
 $$;
+
+-- Only the service role (worker / MCP server) may call these.
+revoke execute on function claim_command() from public, anon, authenticated;
+revoke execute on function requeue_stale_commands(int) from public, anon, authenticated;
