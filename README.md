@@ -32,11 +32,17 @@ Log into Upwork in that window once. It uses its own profile, `~/.upwork-chrome-
 .venv/bin/upwork-worker
 ```
 
+Optional, for auto-start on login (Linux, systemd user services):
+```bash
+./scripts/install-services.sh                # debug Chrome
+./scripts/install-services.sh --with-worker  # debug Chrome + worker
+```
+
 ### 4. Register the MCP server
 ```bash
-claude mcp add upwork -- /path/to/upwork-mcp/.venv/bin/upwork-mcp
+claude mcp add --scope user upwork -- /path/to/upwork-mcp/.venv/bin/upwork-mcp
 ```
-The server reads `.env` from its working directory. You can also pass `-e SUPABASE_URL=... -e SUPABASE_SERVICE_KEY=...`. For HTTP transport, run `upwork-mcp streamable-http`.
+The server reads the project's `.env` whatever its working directory. Set `UPWORK_MCP_ENV=/path/to/.env` to use a different file, or pass `-e SUPABASE_URL=... -e SUPABASE_SERVICE_KEY=...`. For HTTP transport, run `upwork-mcp streamable-http`.
 
 ## Tools
 

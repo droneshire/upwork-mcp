@@ -1,0 +1,15 @@
+[Unit]
+Description=Chrome with remote debugging for Upwork MCP
+PartOf=graphical-session.target
+After=graphical-session.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h/Documents/upwork-mcp
+ExecStart=%h/Documents/upwork-mcp/scripts/start-chrome.sh
+# Closing the window exits 0 and is respected; crashes are restarted.
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=graphical-session.target

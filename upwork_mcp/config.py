@@ -2,9 +2,12 @@ from __future__ import annotations
 
 import os
 from dataclasses import dataclass
+from pathlib import Path
 
 from dotenv import load_dotenv
 
+# Explicit env file, else the project's .env (works regardless of cwd), else cwd.
+load_dotenv(os.getenv("UPWORK_MCP_ENV") or Path(__file__).resolve().parent.parent / ".env")
 load_dotenv()
 
 

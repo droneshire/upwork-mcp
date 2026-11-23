@@ -1,0 +1,15 @@
+[Unit]
+Description=Upwork MCP worker (Chrome <-> Supabase)
+After=upwork-chrome.service network-online.target
+Wants=upwork-chrome.service
+
+[Service]
+Type=simple
+WorkingDirectory=%h/Documents/upwork-mcp
+ExecStart=%h/Documents/upwork-mcp/.venv/bin/upwork-worker
+# Exits if Chrome isn't reachable; keep retrying until it is.
+Restart=always
+RestartSec=15
+
+[Install]
+WantedBy=graphical-session.target
